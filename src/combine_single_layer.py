@@ -1,7 +1,9 @@
+import logging
 import re
 
 
 def combine_single_layer(expr: str) -> list:
+    logging.info(f"Combined Layer {expr}")
     combined = list()
 
     primes = re.findall(r"[0-9]+", string=expr)
@@ -11,12 +13,16 @@ def combine_single_layer(expr: str) -> list:
 
     for i, operator in enumerate(operators):
         if operator == "&&":
+            print(f"Multiplying Current Prime {current_prime} by {int(primes[i + 1])}")
+
             current_prime = current_prime * int(primes[i + 1])
         else:
             combined.append(current_prime)
-            current_prime = 1
+            print(f"Adding Prime to List: {current_prime}")
+            current_prime = int(primes[i + 1])
 
-    if not combined:
-        combined.append(current_prime)
+    combined.append(current_prime)
+
+    logging.info(f"Returing Combined: {combined}")
 
     return combined
