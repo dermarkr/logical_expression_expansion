@@ -37,7 +37,7 @@ def get_terms_in_expr(expr) -> list:
 def make_prime_map(terms) -> list:
     """
 
-    :param expr:
+    :param terms:
     :return:
     """
 

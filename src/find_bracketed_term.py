@@ -19,3 +19,21 @@ def find_bracket_bounds(expr: str, start_index: int) -> int:
             open_bracket_count += 1
 
     return end_index
+
+
+def find_max_depth(expr: str) -> int:
+    max_depth = 0
+
+    open_bracket_count = 0
+
+    for i, char in enumerate(expr):
+        if char == ")":
+            if open_bracket_count > 0:
+                open_bracket_count -= 1
+        elif char == "(":
+            open_bracket_count += 1
+
+            if open_bracket_count > max_depth:
+                max_depth = open_bracket_count
+
+    return max_depth

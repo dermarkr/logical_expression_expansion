@@ -3,14 +3,18 @@ import re
 from copy import copy
 
 from src.combine_single_layer import combine_single_layer
-from src.find_bracketed_term import find_bracket_bounds
+from src.find_bracketed_term import find_bracket_bounds, find_max_depth
 
 logging.basicConfig()
 
 
 def combine_layers(expr: str) -> list:
-    if "(" not in expr:
+    max_depth = find_max_depth(expr)
+
+    if max_depth == 0:
         return combine_single_layer(expr)
+    # elif max_depth > 1:
+    #     expr = combine_layers(expr)
 
     brackets = list()
     temp_expr = copy(expr)
@@ -72,7 +76,10 @@ def combine_layers(expr: str) -> list:
 
         else:
             new_expr.extend(current_primes)
-            if isinstance(values[i + 1], list):
+
+            if "#" in values[i + 1]:
+                current_primes = brackets_simplified[str(values[i + 1][1:])]
+            elif isinstance(values[i + 1], list):
                 current_primes = values[i + 1]
             else:
                 current_primes = [int(values[i + 1])]
