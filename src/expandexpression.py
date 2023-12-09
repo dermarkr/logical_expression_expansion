@@ -2,8 +2,7 @@ import logging
 
 
 class ExpandExpression:
-    def __init__(self, expr: str, prime_map: list):
-        self.expr = expr
+    def __init__(self, prime_map: list):
         self.prime_map = prime_map
 
         self.used_primes = list()
@@ -55,7 +54,21 @@ class ExpandExpression:
                 continue
             expr += f"{char} && "
 
-        if expr[-1] == " ":
+        if expr:
+            expr = expr[:-4]
+
+        return expr
+
+    def expand_expr_list(self, expr_list: list) -> str:
+
+        expr = str()
+
+        for value in expr_list:
+            value_expanded = self.expand_value_to_components(value)
+
+            expr += f"{value_expanded} || "
+
+        if expr:
             expr = expr[:-4]
 
         return expr

@@ -5,10 +5,9 @@ from src.expandexpression import ExpandExpression
 
 @pytest.fixture
 def ee():
-    expr = ""
     prime_map = [["A", 11], ["B", 13], ["C", 17], ["D", 19], ["E", 23], ["F", 29], ["G", 31]]
 
-    ee = ExpandExpression(expr=expr, prime_map=prime_map)
+    ee = ExpandExpression(prime_map=prime_map)
     return ee
 
 
@@ -33,4 +32,14 @@ def test_get_component_primes(ee, value, used_primes, expected_primes):
 ])
 def test_expand_value_to_components(ee, value, expected_expr):
     expr = ee.expand_value_to_components(value)
+    assert expected_expr == expr
+
+
+@pytest.mark.parametrize("value_list, expected_expr", [
+    [[11 * 13], "A && B"],
+    [[13 * 19 * 31, 11 * 13], "B && D && G || A && B"],
+    [[11 * 11], "A"]
+])
+def test_expand_expr_list(ee, value_list, expected_expr):
+    expr = ee.expand_expr_list(value_list)
     assert expected_expr == expr
