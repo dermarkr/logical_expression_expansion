@@ -28,10 +28,10 @@ def test_get_terms_in_expr(expr, expected):
 
 
 @pytest.mark.parametrize("expr, expected", [
-    ["A", "11"],
-    ["A || B", "11 || 13"],
-    ["A && B || C", "11 && 13 || 17"],
-    ["TRE && ZAS", "11 && 13"]
+    ["A", ("11", [['A', 11]])],
+    ["A || B", ("11 || 13", [['A', 11], ['B', 13]])],
+    ["A && B || C", ("11 && 13 || 17", [['A', 11], ['B', 13], ['C', 17]])],
+    ["TRE && ZAS", ("11 && 13", [['TRE', 11], ["ZAS", 13]])]
 ])
 def test_replace_terms_with_prime(expr, expected):
     converted = replace_terms_with_prime(expr)

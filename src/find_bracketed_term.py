@@ -1,9 +1,13 @@
+import logging
+
+
 def find_bracket_bounds(expr: str, start_index: int) -> int:
     """
     :param expr:
     :param start_index:
     returns end_index as int
     """
+    logging.info(f"Finding the ")
 
     open_bracket_count = 0
     end_index = start_index

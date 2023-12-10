@@ -4,7 +4,7 @@ import re
 logging.basicConfig(level=logging.DEBUG)
 
 
-def replace_terms_with_prime(expr: str) -> str:
+def replace_terms_with_prime(expr: str) -> tuple[str, list]:
     """
 
     :param expr:
@@ -18,7 +18,7 @@ def replace_terms_with_prime(expr: str) -> str:
     for term, prime in prime_map:
         expr = expr.replace(term, str(prime))
 
-    return expr
+    return expr, prime_map
 
 
 def get_terms_in_expr(expr) -> list:
