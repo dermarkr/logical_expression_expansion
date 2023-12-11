@@ -23,6 +23,6 @@ def combine_single_layer(expr: str) -> list:
 
     combined.append(current_prime)
 
-    logging.info(f"Returing Combined: {combined}")
+    logging.info(f"Returning Combined: {combined}")
 
     return combined

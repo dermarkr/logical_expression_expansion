@@ -6,8 +6,6 @@ from src.expandexpression import ExpandExpression, expr_list_to_str
 from src.find_bracketed_term import find_bracket_bounds, find_max_depth
 from src.prime_conversion import replace_terms_with_prime
 
-logging.basicConfig()
-
 
 def get_brackets(expr: str) -> dict:
     logging.info(f"Finding First level brackets in expression `{expr}`")
@@ -36,17 +34,27 @@ def replace_brackets_with_index(brackets: dict, expr: str) -> str:
 
 
 def combine_layers(expr: str) -> str:
+    logging.info(f"Combining layers for expression `{expr}`")
     max_depth = find_max_depth(expr)
 
     brackets = get_brackets(expr=expr)
 
     temp_expr = replace_brackets_with_index(brackets, expr)
 
+    for index in brackets.keys():
+        if "(" in brackets[index]:
+            brackets[index] = combine_layers(expr=brackets[index])
+
     values = re.findall(r"#[0-9]+|[0-9]+", temp_expr)
     operators = operators = re.findall(r"&&|\|\|", string=temp_expr)
 
+    logging.info(f"Values in temporary expression {values}")
+
     if isinstance(values[0], list):
         current_primes = values[0]
+    elif "#" in values[0]:
+        index = values[0][1:]
+        current_primes = combine_single_layer(brackets[str(index)])
     else:
         current_primes = [int(values[0])]
 
@@ -97,7 +105,11 @@ def combine_layers(expr: str) -> str:
 
 
 if __name__ == "__main__":
-    expr_init = "A && (B && (C || F)) || D && E && (A && B || C)"
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+
+    # expr_init = "A && (B && (C || F)) || D && E && (A && B || C)"
+    expr_init = "((A || B) && (C || D))"
+
 
     primed_expr, prime_map = replace_terms_with_prime(expr=expr_init)
 
