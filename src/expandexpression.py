@@ -1,4 +1,17 @@
 import logging
+import re
+
+
+def expr_list_to_str(expr_list: list) -> str:
+    expr = str()
+
+    for value in expr_list:
+        expr += f"{value} || "
+
+    if expr:
+        expr = expr[:-4]
+
+    return expr
 
 
 class ExpandExpression:
@@ -48,27 +61,43 @@ class ExpandExpression:
         expr = str()
 
         for component_prime in component_primes:
-            char = self.get_mapped_character(prime=component_prime)
-            if not char:
-                logging.warning(f"No Mapped character found for `{component_prime}`. Skipping it.")
-                continue
-            expr += f"{char} && "
+            expr += f"{str(component_prime)} && "
 
         if expr:
             expr = expr[:-4]
 
         return expr
 
-    def expand_expr_list(self, expr_list: list) -> str:
+    def convert_primed_expr_to_chars(self, expr: str) -> str:
 
-        expr = str()
+        component_primes = re.findall(r"[0-9]+", expr)
 
-        for value in expr_list:
-            value_expanded = self.expand_value_to_components(value)
+        expr = f" {expr} "
 
-            expr += f"{value_expanded} || "
+        for component_prime in component_primes:
+            char = self.get_mapped_character(prime=int(component_prime))
+            if not char:
+                logging.warning(f"No Mapped character found for `{component_prime}`. Skipping it.")
+                continue
+            expr = expr.replace(f" {str(component_prime)} ", f" {char} ")
 
-        if expr:
-            expr = expr[:-4]
+        expr = expr[1:-1]
+
+        return expr
+
+    def fully_expand_expression(self, expr: str):
+        component_values = re.findall(r"[0-9]+", expr)
+
+        expr = f" {expr} "
+
+        for value in component_values:
+            expanded_primes = self.expand_value_to_components(value=int(value))
+
+            print(expanded_primes)
+            print(value)
+
+            expr = expr.replace(f" {str(value)} ", f" {expanded_primes} ")
+
+        expr = expr[1:-1]
 
         return expr

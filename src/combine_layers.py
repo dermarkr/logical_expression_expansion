@@ -2,7 +2,7 @@ import logging
 import re
 
 from src.combine_single_layer import combine_single_layer
-from src.expandexpression import ExpandExpression
+from src.expandexpression import ExpandExpression, expr_list_to_str
 from src.find_bracketed_term import find_bracket_bounds, find_max_depth
 from src.prime_conversion import replace_terms_with_prime
 
@@ -35,7 +35,7 @@ def replace_brackets_with_index(brackets: dict, expr: str) -> str:
     return expr
 
 
-def combine_layers(expr: str) -> list:
+def combine_layers(expr: str) -> str:
     max_depth = find_max_depth(expr)
 
     brackets = get_brackets(expr=expr)
@@ -45,18 +45,12 @@ def combine_layers(expr: str) -> list:
     values = re.findall(r"#[0-9]+|[0-9]+", temp_expr)
     operators = operators = re.findall(r"&&|\|\|", string=temp_expr)
 
-    print(values)
-    print(operators)
-
     if isinstance(values[0], list):
         current_primes = values[0]
     else:
         current_primes = [int(values[0])]
 
     expr_value_list = list()
-
-    print(current_primes)
-    print(brackets)
 
     for i, operator in enumerate(operators):
         print(current_primes)
@@ -97,7 +91,9 @@ def combine_layers(expr: str) -> list:
 
     expr_value_list.extend(current_primes)
 
-    return expr_value_list
+    ret_expr = expr_list_to_str(expr_list=expr_value_list)
+
+    return ret_expr
 
 
 if __name__ == "__main__":
@@ -113,6 +109,10 @@ if __name__ == "__main__":
 
     ee = ExpandExpression(prime_map=prime_map)
 
-    reduced = ee.expand_expr_list(r)
+    reduced = ee.fully_expand_expression(r)
 
     print(reduced)
+
+    final = ee.convert_primed_expr_to_chars(reduced)
+
+    print(final)
