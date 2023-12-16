@@ -1,13 +1,18 @@
 import logging
 import re
 
-from src.combine_single_layer import combine_single_layer
+from src.combine_single_layer import combine_simple_primed_expr
 from src.expandexpression import ExpandExpression, expr_list_to_str
 from src.find_bracketed_term import find_bracket_bounds, find_max_depth
 from src.prime_conversion import replace_terms_with_prime
 
 
 def get_brackets(expr: str) -> dict:
+    """
+    Gets the first level of brackets and returns the contents in a dict with the start index as the key
+    :param expr:
+    :return: dict
+    """
     logging.info(f"Finding First level brackets in expression `{expr}`")
     i = 0
     brackets = dict()
@@ -24,6 +29,12 @@ def get_brackets(expr: str) -> dict:
 
 
 def replace_brackets_with_index(brackets: dict, expr: str) -> str:
+    """
+    Replaces bracketed terms in an expression with their starting index prefixed with a '#'
+    :param brackets:
+    :param expr:
+    :return: str
+    """
     logging.info(f"Replacing the brackets in expression {expr} with their starting index")
     logging.debug(f"Brackets are `{brackets}`")
     for index, contents in brackets.items():
@@ -54,7 +65,7 @@ def combine_layers(expr: str) -> str:
         current_primes = values[0]
     elif "#" in values[0]:
         index = values[0][1:]
-        current_primes = combine_single_layer(brackets[str(index)])
+        current_primes = combine_simple_primed_expr(brackets[str(index)])
     else:
         current_primes = [int(values[0])]
 
@@ -67,7 +78,7 @@ def combine_layers(expr: str) -> str:
                 print(values[i + 1])
                 temp_primes = list()
 
-                bracket_simplified = combine_single_layer(brackets[str(values[i + 1][1:])])
+                bracket_simplified = combine_simple_primed_expr(brackets[str(values[i + 1][1:])])
 
                 for v in bracket_simplified:
                     print(v)
@@ -88,7 +99,7 @@ def combine_layers(expr: str) -> str:
             expr_value_list.extend(current_primes)
 
             if "#" in values[i + 1]:
-                bracket_simplified = combine_single_layer(brackets[str(values[i + 1][1:])])
+                bracket_simplified = combine_simple_primed_expr(brackets[str(values[i + 1][1:])])
 
                 current_primes = bracket_simplified
             elif isinstance(values[i + 1], list):
