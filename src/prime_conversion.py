@@ -1,14 +1,12 @@
 import logging
 import re
 
-logging.basicConfig(level=logging.DEBUG)
-
 
 def replace_terms_with_prime(expr: str) -> tuple[str, list]:
     """
 
-    :param expr:
-    :return:
+    :param expr: str
+    :return: tuple[str, list]
     """
 
     terms = get_terms_in_expr(expr)
@@ -21,7 +19,12 @@ def replace_terms_with_prime(expr: str) -> tuple[str, list]:
     return expr, prime_map
 
 
-def get_terms_in_expr(expr) -> list:
+def get_terms_in_expr(expr: str) -> list:
+    """
+    Gets a sorted list of unique terms in the expression
+    :param expr: str
+    :return: list
+    """
     logging.info(f"Getting terms from `{expr}`")
     terms = re.findall(r"[A-Z]+", expr)
 
@@ -34,12 +37,16 @@ def get_terms_in_expr(expr) -> list:
     return terms
 
 
-def make_prime_map(terms) -> list:
+def make_prime_map(terms: list) -> list:
+    """
+    Creates a list which maps the terms from the expression to unique prime numbers
+
+    :param terms: list
+
+    :return: list
     """
 
-    :param terms:
-    :return:
-    """
+    logging.info(f"Building prime_map")
 
     prime_map = list()
 
@@ -48,8 +55,11 @@ def make_prime_map(terms) -> list:
     for term in terms:
         next_prime = get_next_prime(next_prime)
 
+        logging.debug(f"Adding to prime_map: term = `{term}`, prime = `{next_prime}`")
         prime_map.append([term, next_prime])
 
+    logging.info(f"Returning prime_map")
+    logging.debug(f"prime_map = `{prime_map}`")
     return prime_map
 
 
@@ -58,9 +68,12 @@ def get_next_prime(lower_bound: int = 10) -> int:
     Takes in an integer and returns the next prime higher than it.
     
     This is not an efficient function
-    :param lower_bound:
-    :return:
+    :param lower_bound: int
+
+    :return: int
     """
+
+    logging.info(f"Starting to get next prime above value `{lower_bound}`")
 
     next_prime = lower_bound + 1
 
@@ -71,7 +84,7 @@ def get_next_prime(lower_bound: int = 10) -> int:
 
     while True:
 
-        logging.info(f"Checking if {next_prime} in prime")
+        logging.debug(f"Checking if {next_prime} is prime")
 
         not_prime = False
 
@@ -86,5 +99,7 @@ def get_next_prime(lower_bound: int = 10) -> int:
         logging.info(f"{next_prime} not prime Checking next")
 
         next_prime += 1
+
+    logging.info(f"Found next prime is `{next_prime}`")
 
     return next_prime

@@ -3,7 +3,7 @@ import re
 
 from src.combine_single_layer import combine_simple_primed_expr
 from src.expandexpression import ExpandExpression, expr_list_to_str
-from src.find_bracketed_term import find_bracket_bounds, find_max_depth
+from src.find_bracketed_term import find_bracket_bounds
 from src.prime_conversion import replace_terms_with_prime
 
 
@@ -31,8 +31,9 @@ def get_brackets(expr: str) -> dict:
 def replace_brackets_with_index(brackets: dict, expr: str) -> str:
     """
     Replaces bracketed terms in an expression with their starting index prefixed with a '#'
-    :param brackets:
-    :param expr:
+    :param brackets: dict
+    :param expr: str
+
     :return: str
     """
     logging.info(f"Replacing the brackets in expression {expr} with their starting index")
@@ -46,7 +47,6 @@ def replace_brackets_with_index(brackets: dict, expr: str) -> str:
 
 def combine_layers(expr: str) -> str:
     logging.info(f"Combining layers for expression `{expr}`")
-    max_depth = find_max_depth(expr)
 
     brackets = get_brackets(expr=expr)
 

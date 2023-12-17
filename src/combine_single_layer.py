@@ -6,7 +6,7 @@ def combine_simple_primed_expr(expr: str) -> list:
     """
     Takes a primed expression without brakes, combines &&'d terms.
     Returns a list where each value is ||'d with the others
-    :param expr:
+    :param expr: str
     :return: list
     """
     logging.info(f"Combined Layer {expr}")

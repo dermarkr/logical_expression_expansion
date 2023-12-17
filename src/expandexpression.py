@@ -108,6 +108,7 @@ class ExpandExpression:
         Converts all primes in an expression to their mapped terms
 
         :param expr: str
+
         :return: str
         """
 
@@ -137,6 +138,7 @@ class ExpandExpression:
         Fully expands an expression with values made up of component primes.
         Does NOT replace the primes with their mapped terms
         :param expr: str
+
         :return: str
         """
         logging.info(f"Expanding expression `{expr}`")

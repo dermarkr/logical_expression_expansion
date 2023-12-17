@@ -17,11 +17,10 @@ def ee():
     [13 * 17 * 37, [11, 13, 17, 19, 29, 37], [13, 17, 37]],
     [14, [11, 13, 17, 19, 29, 37], []],
     [99, [11, 13, 17, 19, 29, 37], [11]],
-
 ])
 def test_get_component_primes(ee, value, used_primes, expected_primes):
     ee.used_primes = used_primes
-    primes = ee.get_component_primes(value=value)
+    primes = ee.get_component_primes(value)
     assert expected_primes == primes
 
 
