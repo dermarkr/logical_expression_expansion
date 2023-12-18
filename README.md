@@ -7,3 +7,5 @@ The input Logical expression should have spaces between symbols and operates (eg
 A move complex example is "A && (B || C) || A && (E || F && (I || J)) && (G || H)"
 
 Does not support NOT terms.
+
+##   
