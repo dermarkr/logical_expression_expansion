@@ -1,6 +1,6 @@
 import pytest
 
-from src.expandexpression import combine_layers, combine_simple_primed_expr, find_bracket_bounds
+from src.expandexpression.expandexpression import combine_layers, combine_simple_primed_expr, find_bracket_bounds
 
 
 @pytest.mark.parametrize("expr, expected", [

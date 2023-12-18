@@ -1,7 +1,7 @@
 import logging
 import re
 
-from src.expressionprimeconversion import expr_list_to_str, ExpressionPrimeConversion
+from src.expressionprimeconversion.expressionprimeconversion import expr_list_to_str, ExpressionPrimeConversion
 
 
 def expand_expression(expr: str) -> str:
