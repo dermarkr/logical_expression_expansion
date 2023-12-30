@@ -1,7 +1,7 @@
 import pytest
 
-from src.expressionprimeconversion.expressionprimeconversion import ExpressionPrimeConversion, expr_list_to_str, \
-    get_terms_in_expr, get_next_prime
+from src.expression_expansion.expandexpression import ExpressionPrimeConversion, expr_list_to_str, get_next_prime, \
+    get_terms_in_expr
 
 
 @pytest.fixture
